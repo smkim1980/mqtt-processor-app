@@ -1,0 +1,12 @@
+POST http://localhost:8080/api/mqtt/protobuf/publish/data/BMS001
+Content-Type: application/json
+
+ {
+  "terminalId": "PROTO_TERM001",
+   "voltage": 13.2,
+   "current": 8.5,
+   "temperature": 28.5,
+   "batteryLevel": 92,
+   "status": "NORMAL"
+ }
+

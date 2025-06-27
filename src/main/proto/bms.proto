@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+package tmoney.gbi.proto;
+
+option java_package = "tmoney.gbi.bms.proto";
+option java_outer_classname = "BmsProto";
+option java_multiple_files = true;
+
+// BMS 데이터 메시지
+message BmsDataMessage {
+  string device_id = 1;
+  string terminal_id = 2;
+  double voltage = 3;
+  double current = 4;
+  double temperature = 5;
+  int32 battery_level = 6;
+  BmsStatus status = 7;
+  int64 timestamp = 8; // Unix timestamp in milliseconds
+
+  // 추가 센서 데이터
+  repeated SensorReading sensor_readings = 9;
+
+  // 위치 정보 (선택사항)
+  Location location = 10;
+}
+
+// BMS 상태 메시지
+message BmsStatusMessage {
+  string device_id = 1;
+  BmsStatus status = 2;
+  string message = 3;
+  int64 timestamp = 4;
+
+  // 상태 세부 정보
+  StatusDetails details = 5;
+}
+
+// BMS 명령 메시지
+message BmsCommandMessage {
+  string device_id = 1;
+  CommandType command_type = 2;
+  string command_payload = 3;
+  string request_id = 4;
+  int64 timestamp = 5;
+
+  // 명령 매개변수
+  map<string, string> parameters = 6;
+}
+
+// BMS 응답 메시지
+message BmsResponseMessage {
+  string device_id = 1;
+  string request_id = 2;
+  ResponseStatus response_status = 3;
+  string response_message = 4;
+  int64 timestamp = 5;
+
+  // 응답 데이터
+  string response_data = 6;
+}
+
+// 센서 읽기 데이터
+message SensorReading {
+  string sensor_type = 1;
+  double value = 2;
+  string unit = 3;
+  int64 reading_time = 4;
+}
+
+// 위치 정보
+message Location {
+  double latitude = 1;
+  double longitude = 2;
+  double altitude = 3;
+}
+
+// 상태 세부 정보
+message StatusDetails {
+  int32 error_code = 1;
+  string error_message = 2;
+  double uptime_seconds = 3;
+  int32 connection_quality = 4; // 0-100
+}
+
+// BMS 상태 열거형
+enum BmsStatus {
+  UNKNOWN = 0;
+  NORMAL = 1;
+  WARNING = 2;
+  ERROR = 3;
+  CRITICAL = 4;
+  OFFLINE = 5;
+  MAINTENANCE = 6;
+}
+
+// 명령 타입 열거형
+enum CommandType {
+  UNKNOWN_COMMAND = 0;
+  RESTART = 1;
+  SHUTDOWN = 2;
+  RESET = 3;
+  UPDATE_CONFIG = 4;
+  START_MONITORING = 5;
+  STOP_MONITORING = 6;
+  CALIBRATE = 7;
+  DIAGNOSTIC = 8;
+}
+
+// 응답 상태 열거형
+enum ResponseStatus {
+  UNKNOWN_RESPONSE = 0;
+  SUCCESS = 1;
+  FAILED = 2;
+  PENDING = 3;
+  TIMEOUT = 4;
+}
