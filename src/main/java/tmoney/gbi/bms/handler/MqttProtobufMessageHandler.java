@@ -7,7 +7,6 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
-import tmoney.gbi.bms.config.publisher.MqttProtobufPublisherService;
 import tmoney.gbi.bms.proto.*;
 
 @Slf4j
@@ -15,7 +14,6 @@ import tmoney.gbi.bms.proto.*;
 @RequiredArgsConstructor
 public class MqttProtobufMessageHandler {
 
-    private final MqttProtobufPublisherService protobufPublisherService;
 
     @ServiceActivator(inputChannel = "mqttInputChannel")
     public void handleProtobufMessage(Message<?> message) {
@@ -148,15 +146,6 @@ public class MqttProtobufMessageHandler {
             log.info("Payload: {}", commandMessage.getCommandPayload());
 
             ResponseStatus responseStatus = processBmsCommand(commandMessage);
-
-            // 응답 발송
-            protobufPublisherService.publishBmsResponse(
-                    commandMessage.getDeviceId(),
-                    commandMessage.getRequestId(),
-                    responseStatus,
-                    "Command processed successfully",
-                    null
-            );
         } catch (InvalidProtocolBufferException e) {
             log.error("Failed to parse BMS command message: {}", e.getMessage());
             throw e;
@@ -184,24 +173,12 @@ public class MqttProtobufMessageHandler {
         if (bmsData.getBatteryLevel() < 20) {
             log.warn("Low battery detected for device: {}, level: {}%",
                     bmsData.getDeviceId(), bmsData.getBatteryLevel());
-
-            protobufPublisherService.publishBmsStatus(
-                    bmsData.getDeviceId(),
-                    BmsStatus.WARNING,
-                    "Low battery level: " + bmsData.getBatteryLevel() + "%"
-            );
         }
 
         // 온도가 높으면 경고
         if (bmsData.getTemperature() > 40.0) {
             log.warn("High temperature detected for device: {}, temperature: {}°C",
                     bmsData.getDeviceId(), bmsData.getTemperature());
-
-            protobufPublisherService.publishBmsStatus(
-                    bmsData.getDeviceId(),
-                    BmsStatus.WARNING,
-                    "High temperature: " + bmsData.getTemperature() + "°C"
-            );
         }
     }
 

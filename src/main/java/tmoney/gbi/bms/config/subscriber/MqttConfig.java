@@ -44,7 +44,7 @@ public class MqttConfig {
         options.setMaxReconnectDelay(5000);
         options.setReceiveMaximum(100);
 
-        String clientId = mqttProperties.getClient().getId() + "-subscriber";
+        String clientId = mqttProperties.getClient().getId();
         log.info("MQTT subscriber client ID: {}", clientId);
 
         Mqttv5ClientManager clientManager = new Mqttv5ClientManager(options, clientId);
