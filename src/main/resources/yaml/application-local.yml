@@ -1,27 +1,21 @@
 spring:
-  datasource:
-    hikari:
-      driver-class-name: org.h2.Driver
-      jdbc-url: jdbc:h2:mem:bmsdb;DB_CLOSE_DELAY=-1
-      username: sa
-      password:
+#  datasource:
+#    hikari:
+#      driver-class-name: org.h2.Driver
+#      jdbc-url: jdbc:h2:mem:bmsdb;DB_CLOSE_DELAY=-1
+#      username: sa
+#      password:
   application:
     name: bms-mqtt-processor-app
   config:
     activate:
       on-profile: local
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-  main:
-    lazy-initialization: true
 
-mybatis:
-  mapper-locations: classpath:mappers/*.xml
-  type-handlers-package: com.bms.app.typehandler
-  configuration:
-    map-underscore-to-camel-case: true
+mqtt:
+  uri: tcp://localhost:1883
+  client-id: bms-subscriber-
+  username: mqtt_user
+  password: mqtt_password
 
 logging:
   level:
@@ -29,19 +23,3 @@ logging:
     org.springframework.integration: DEBUG
     org.eclipse.paho: INFO
 
-mqtt:
-  broker:
-    url: tcp://localhost:1883
-    username: mqtt_user
-    password: mqtt_password
-    qos: 1
-  client:
-    id: bms-center-subscriber
-  topics:
-    - "bms/#"
-    - "test/topic"
-
-
-retry:
-  max-attempts: 3
-  backoff-delay: 1000 # 1초

@@ -6,111 +6,116 @@ option java_package = "tmoney.gbi.bms.proto";
 option java_outer_classname = "BmsProto";
 option java_multiple_files = true;
 
-// BMS 데이터 메시지
-message BmsDataMessage {
-  string device_id = 1;
-  string terminal_id = 2;
-  double voltage = 3;
-  double current = 4;
-  double temperature = 5;
-  int32 battery_level = 6;
-  BmsStatus status = 7;
-  int64 timestamp = 8; // Unix timestamp in milliseconds
+import "google/protobuf/timestamp.proto";
 
-  // 추가 센서 데이터
-  repeated SensorReading sensor_readings = 9;
+// =======================================================
+// 공통 데이터 타입 정의
+// =======================================================
 
-  // 위치 정보 (선택사항)
-  Location location = 10;
+/**
+ * @brief 부호있는 1Byte 정수형 (Signed Char)
+ * @details 범위: -128 ~ 127
+ */
+message SignedChar {
+  int32 value = 1;
 }
 
-// BMS 상태 메시지
-message BmsStatusMessage {
-  string device_id = 1;
-  BmsStatus status = 2;
-  string message = 3;
-  int64 timestamp = 4;
-
-  // 상태 세부 정보
-  StatusDetails details = 5;
+/**
+ * @brief 부호없는 1Byte 정수형 (Unsigned Char)
+ * @details 범위: 0 ~ 255
+ */
+message UnsignedChar {
+  uint32 value = 1;
 }
 
-// BMS 명령 메시지
-message BmsCommandMessage {
-  string device_id = 1;
-  CommandType command_type = 2;
-  string command_payload = 3;
-  string request_id = 4;
-  int64 timestamp = 5;
-
-  // 명령 매개변수
-  map<string, string> parameters = 6;
+/**
+ * @brief 부호있는 2Byte 정수형 (Signed Short)
+ * @details 범위: -32768 ~ 32767
+ */
+message SignedShort {
+  int32 value = 1;
 }
 
-// BMS 응답 메시지
-message BmsResponseMessage {
-  string device_id = 1;
-  string request_id = 2;
-  ResponseStatus response_status = 3;
-  string response_message = 4;
-  int64 timestamp = 5;
-
-  // 응답 데이터
-  string response_data = 6;
+/**
+ * @brief 부호없는 2Byte 정수형 (Unsigned Short)
+ * @details 범위: 0 ~ 65535
+ */
+message UnsignedShort {
+  uint32 value = 1;
 }
 
-// 센서 읽기 데이터
-message SensorReading {
-  string sensor_type = 1;
-  double value = 2;
-  string unit = 3;
-  int64 reading_time = 4;
+/**
+ * @brief 명령코드 (Opcode)
+ * @details 정보 유형 코드를 나타냅니다.
+ */
+message Opcode {
+  UnsignedShort value = 1;
 }
 
-// 위치 정보
+/**
+ * @brief 속도 (Speed)
+ * @details 단위: km/h, 범위: 0.00 ~ 150.99
+ */
+message Speed {
+  float value = 1;
+}
+
+/**
+ * @brief 경로 방향 구분 (Route Direction)
+ * @details 상행(기종점행) 또는 하행(종기점행)을 구분합니다.
+ */
+enum RouteDirOd {
+  ROUTE_DIR_OD_UNKNOWN = 0; // 정의되지 않음
+  UPLINE = 1;               // 상행 (기종점행)
+  DOWNLINE = 2;             // 하행 (종기점행)
+}
+
+/**
+ * @brief 정류소 ID (Stop ID)
+ */
+message StopId {
+  string value = 1;
+}
+
+// =======================================================
+// 차량 위치정보
+// =======================================================
+
+/**
+ * @brief 차량 위치정보 (Location)
+ * @details 차량의 실시간 위치 및 관련 정보를 포함합니다.
+ */
 message Location {
+  // 위도: 북위(+), 남위(-). 정밀도 최대 15자리.
   double latitude = 1;
+
+  // 경도: 동경(+), 서경(-). 정밀도 최대 15자리.
   double longitude = 2;
-  double altitude = 3;
-}
 
-// 상태 세부 정보
-message StatusDetails {
-  int32 error_code = 1;
-  string error_message = 2;
-  double uptime_seconds = 3;
-  int32 connection_quality = 4; // 0-100
-}
+  // 방위각: 북쪽 기준 시계방향 각도 (0~360도).
+  float heading = 3;
 
-// BMS 상태 열거형
-enum BmsStatus {
-  UNKNOWN = 0;
-  NORMAL = 1;
-  WARNING = 2;
-  ERROR = 3;
-  CRITICAL = 4;
-  OFFLINE = 5;
-  MAINTENANCE = 6;
-}
+  // 고도: 해수면 기준 높이 (단위: 미터).
+  float altitude = 4;
 
-// 명령 타입 열거형
-enum CommandType {
-  UNKNOWN_COMMAND = 0;
-  RESTART = 1;
-  SHUTDOWN = 2;
-  RESET = 3;
-  UPDATE_CONFIG = 4;
-  START_MONITORING = 5;
-  STOP_MONITORING = 6;
-  CALIBRATE = 7;
-  DIAGNOSTIC = 8;
-}
+  // 시점속도(km/h).
+  Speed speed = 5;
 
-// 응답 상태 열거형
-enum ResponseStatus {
-  UNKNOWN_RESPONSE = 0;
-  SUCCESS = 1;
-  FAILED = 2;
-  PENDING = 3;
-  TIMEOUT = 4;
+  // 발생시각 (UTC).
+  google.protobuf.Timestamp occur_at = 6;
+
+  // 상행/하행 구분.
+  RouteDirOd route_dir_od = 7;
+
+  // 최종(또는 현재) 정류소 ID.
+  StopId last_stop_id = 8;
+
+  // 최종(또는 현재) 정류소 순번.
+  UnsignedChar last_stop_seq = 9;
+
+  // 최종(또는 현재) 정류소로부터 이동한 거리 (offset, 단위: meter).
+  uint32 last_stop_dist = 10;
+
+  // 기점 정류소로부터 이동한 누적거리 (offset, 단위: meter).
+  uint32 origin_accum_dist = 11;
 }

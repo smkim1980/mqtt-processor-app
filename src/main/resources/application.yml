@@ -1,20 +1,8 @@
-# default
 spring:
+  profiles:
+    default: local
   config:
     import:
-      - classpath:/yaml/application-local.yml
-      - classpath:/yaml/application-dev.yml
-      - classpath:/yaml/application-prod.yml
-  profiles:
-    active: local
-
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  mqtt:
-    broker:
-      url: tcp://localhost:1883 # Testcontainers가 동적으로 덮어쓸 값
-      username: test-user
-      password: test-password
+    - classpath:yaml/application-local.yml
+    - classpath:yaml/application-dev.yml
+    - classpath:yaml/application-prod.yml
