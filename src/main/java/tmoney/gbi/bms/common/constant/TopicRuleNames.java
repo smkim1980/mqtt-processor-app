@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TopicRuleNames {
 
+    public static final int QOS_0 = 0;
+    public static final int QOS_1 = 1;
+    public static final int QOS_2= 2;
+
+
     public static class InfoType{
         public static final String OBE = "obe";
         public static final String BIT = "bit";
