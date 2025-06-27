@@ -1,3 +1,9 @@
+POST http://localhost:8080/api/mqtt/test/publish/simple
+Content-Type: application/json
+
+{}
+
+###
 POST http://localhost:8080/api/mqtt/protobuf/publish/data/BMS001
 Content-Type: application/json
 

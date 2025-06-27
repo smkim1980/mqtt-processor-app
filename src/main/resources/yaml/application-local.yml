@@ -38,9 +38,11 @@ mqtt:
   client:
     id: bms-center-subscriber
   topics:
-    - "bms/data/#"
-    - "bms/command/#"
-    - "bms/status/#"
+    - "bms/data/+"
+    - "bms/command/+"
+    - "bms/status/+"
+    - "bms/response/+"
+    - "test/topic"
 
 
 retry:
