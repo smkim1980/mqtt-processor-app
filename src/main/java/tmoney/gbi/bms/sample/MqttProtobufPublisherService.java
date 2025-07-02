@@ -5,7 +5,7 @@ import com.google.protobuf.Timestamp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tmoney.gbi.bms.model.LocationDto;
+import tmoney.gbi.bms.domain.LocationDto;
 import tmoney.gbi.bms.proto.*;
 
 @Service

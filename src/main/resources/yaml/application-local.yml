@@ -1,15 +1,22 @@
 spring:
-#  datasource:
-#    hikari:
-#      driver-class-name: org.h2.Driver
-#      jdbc-url: jdbc:h2:mem:bmsdb;DB_CLOSE_DELAY=-1
-#      username: sa
-#      password:
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    hikari:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:log4jdbc:h2:mem:bmsdb;DB_CLOSE_DELAY=-1
+      username: sa
+      password:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      connection-timeout: 3000
   application:
-    name: bms-mqtt-processor-app
+    name: mqtt-processor-app
   config:
     activate:
       on-profile: local
+    import: classpath:yaml/log/application-local-log.yml
 
 mqtt:
   uri: tcp://localhost:1883
@@ -22,4 +29,13 @@ logging:
     tmoney.gbi.bms: DEBUG
     org.springframework.integration: DEBUG
     org.eclipse.paho: INFO
+
+mybatis:
+  options:
+    configuration:
+      map-underscore-to-camel-case: true
+      JDBCType-for-null: 'NULL'
+      use-generated-keys: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: tmoney.gbi.bms.batch.domain
 

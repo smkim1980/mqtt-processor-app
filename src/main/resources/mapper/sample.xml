@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="tmoney.gbi.bms.mapper.SampleMapper">
+
+    <insert id="insert" parameterType="encryptedLocationDto">
+        INSERT INTO ENCRYPTED_LOCATION (
+            encrypted_latitude,
+            encrypted_longitude,
+            heading,
+            altitude,
+            speed,
+            occur_dt,
+            route_dir,
+            last_stop_id,
+            last_stop_seq,
+            last_stop_dist,
+            origin_accum_dist
+        ) VALUES (
+                     #{encryptedLatitude},
+                     #{encryptedLongitude},
+                     #{heading},
+                     #{altitude},
+                     #{speed},
+                     #{occurDt},
+                     #{routeDir},
+                     #{lastStopId},
+                     #{lastStopSeq},
+                     #{lastStopDist},
+                     #{originAccumDist}
+                 )
+    </insert>
+
+</mapper>
