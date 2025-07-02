@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package tmoney.gbi.bms.proto;
+
+import "google/protobuf/descriptor.proto";
+
+// 필드 암호화 옵션
+extend google.protobuf.FieldOptions {
+  bool encrypt = 50001;
+}
+
+// 메시지 변환의 원본을 지정하는 옵션
+extend google.protobuf.MessageOptions {
+  string transform_source = 50002;
+}

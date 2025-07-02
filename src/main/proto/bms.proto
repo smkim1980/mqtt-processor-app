@@ -7,6 +7,7 @@ option java_outer_classname = "BmsProto";
 option java_multiple_files = true;
 
 import "google/protobuf/timestamp.proto";
+import "options.proto"; // 커스텀 옵션 파일 import
 
 // =======================================================
 // 공통 데이터 타입 정의
@@ -91,6 +92,42 @@ message Location {
 
   // 경도: 동경(+), 서경(-). 정밀도 최대 15자리.
   double longitude = 2;
+
+  // 방위각: 북쪽 기준 시계방향 각도 (0~360도).
+  float heading = 3;
+
+  // 고도: 해수면 기준 높이 (단위: 미터).
+  float altitude = 4;
+
+  // 시점속도(km/h).
+  Speed speed = 5;
+
+  // 발생시각 (UTC).
+  google.protobuf.Timestamp occur_at = 6;
+
+  // 상행/하행 구분.
+  RouteDirOd route_dir_od = 7;
+
+  // 최종(또는 현재) 정류소 ID.
+  StopId last_stop_id = 8;
+
+  // 최종(또는 현재) 정류소 순번.
+  UnsignedChar last_stop_seq = 9;
+
+  // 최종(또는 현재) 정류소로부터 이동한 거리 (offset, 단위: meter).
+  uint32 last_stop_dist = 10;
+
+  // 기점 정류소로부터 이동한 누적거리 (offset, 단위: meter).
+  uint32 origin_accum_dist = 11;
+}
+
+message EncryptedLocation {
+  // ✅ 이 메시지가 어떤 원본으로부터 변환되는지 명시합니다.
+  option (tmoney.gbi.bms.proto.transform_source) = "tmoney.gbi.bms.proto.Location";
+
+  // 커스텀 옵션을 사용하여 암호화 대상 필드를 직접 표시
+  string latitude = 1 [(tmoney.gbi.bms.proto.encrypt) = true];
+  string longitude = 2 [(tmoney.gbi.bms.proto.encrypt) = true];
 
   // 방위각: 북쪽 기준 시계방향 각도 (0~360도).
   float heading = 3;
