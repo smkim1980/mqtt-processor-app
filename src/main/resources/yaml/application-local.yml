@@ -4,7 +4,7 @@ spring:
       enabled: true
   datasource:
     hikari:
-      driver-class-name: org.h2.Driver
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
       jdbc-url: jdbc:log4jdbc:h2:mem:bmsdb;DB_CLOSE_DELAY=-1
       username: sa
       password:
@@ -17,12 +17,17 @@ spring:
     activate:
       on-profile: local
     import: classpath:yaml/log/application-local-log.yml
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
 mqtt:
   uri: tcp://localhost:1883
-  client-id: bms-subscriber-
+  client-id: bms-subscriber
   username: mqtt_user
   password: mqtt_password
+  clean-session: false
 
 logging:
   level:
@@ -37,5 +42,4 @@ mybatis:
       JDBCType-for-null: 'NULL'
       use-generated-keys: true
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: tmoney.gbi.bms.batch.domain
-
+  type-aliases-package: tmoney.gbi.bms.domain

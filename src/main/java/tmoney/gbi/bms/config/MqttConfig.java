@@ -2,7 +2,9 @@ package tmoney.gbi.bms.config;
 
 import com.github.tocrhz.mqtt.properties.MqttConfigAdapter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.net.ssl.KeyManagerFactory;
@@ -24,30 +26,9 @@ import com.github.tocrhz.mqtt.properties.MqttConnectionProperties;
 import org.springframework.stereotype.Component;
 import java.util.UUID;
 
-@Component
+//@Component
 @Slf4j
 public class MqttConfig extends MqttConfigAdapter {
-
-    @Override
-    public void beforeCreate(MqttClientRegistry registry) {
-
-       // MqttConnectionProperties defaultProps = new MqttConnectionProperties();
-
-        // application.yml 기본 client-id 값을 가져옵니다.
-        String baseClientId = this.mqttProperties.getClientId();
-        if (baseClientId == null) {
-            baseClientId = "bms-subscriber-"; // 기본값이 없을 경우를 대비
-        }
-
-        // 고유한 ID 생성 (기본 ID + 랜덤 UUID)
-        String uniqueId = baseClientId + UUID.randomUUID().toString().substring(0, 8);
-
-        // 새로 생성한 ID를 설정에 반영합니다.
-        this.mqttProperties.setClientId(uniqueId);
-
-        log.info("Generated Unique MQTT Client ID: {}" , uniqueId);
-    }
-
 
 //    @Override
 //    public void beforeConnect(String clientId, MqttConnectOptions options) {

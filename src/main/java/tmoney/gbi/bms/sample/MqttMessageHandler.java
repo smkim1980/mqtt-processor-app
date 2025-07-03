@@ -16,6 +16,7 @@ import tmoney.gbi.bms.proto.Location;
 
 import static tmoney.gbi.bms.common.constant.MqttTopicConstants.OBE_TBUS_INB_TOPIC;
 import static tmoney.gbi.bms.common.constant.TopicRuleNames.QOS_1;
+import static tmoney.gbi.bms.common.util.MqttCommUtil.toLocalDateTime;
 
 @Component
 @Slf4j
@@ -41,7 +42,7 @@ public class MqttMessageHandler {
                     .heading(location.getHeading())
                     .altitude(location.getAltitude())
                     .speed(location.getSpeed().getValue())
-                    .occurDt(String.valueOf(location.getOccurAt()))
+                    .occurDt(toLocalDateTime(location.getOccurAt()))
                     .routeDir(location.getRouteDirOd().name())
                     .lastStopId(location.getLastStopId().getValue())
                     .lastStopSeq(location.getLastStopSeq().getValue())

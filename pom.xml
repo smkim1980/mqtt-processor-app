@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version>
+        <version>3.4.7</version>
         <relativePath/>
     </parent>
 
@@ -18,22 +18,8 @@
 
     <properties>
         <java.version>21</java.version>
-        <protobuf.version>3.25.3</protobuf.version>
-        <testcontainers.version>1.19.8</testcontainers.version>
-        <spring-integration.version>6.3.1</spring-integration.version>
+        <protobuf.version>4.28.2</protobuf.version>
     </properties>
-
-<!--    <dependencyManagement>-->
-<!--        <dependencies>-->
-<!--            <dependency>-->
-<!--                <groupId>org.testcontainers</groupId>-->
-<!--                <artifactId>testcontainers-bom</artifactId>-->
-<!--                <version>${testcontainers.version}</version>-->
-<!--                <type>pom</type>-->
-<!--                <scope>import</scope>-->
-<!--            </dependency>-->
-<!--        </dependencies>-->
-<!--    </dependencyManagement>-->
 
     <dependencies>
         <dependency>
@@ -58,50 +44,60 @@
             <version>2.0.1</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk18on -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
-            <version>1.70</version>
+            <artifactId>bcpkix-jdk18on</artifactId>
+            <version>1.81</version>
         </dependency>
+
        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
             <version>${protobuf.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
             <version>${protobuf.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.bgee.log4jdbc-log4j2</groupId>
+            <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+            <version>1.16</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>org.testcontainers</groupId>-->
-<!--            <artifactId>hivemq</artifactId>-->
+<!--            <artifactId>junit-jupiter</artifactId>-->
 <!--            <scope>test</scope>-->
 <!--        </dependency>-->
+
     </dependencies>
 
     <build>
