@@ -1,4 +1,4 @@
-package tmoney.gbi.bms.domain;
+package tmoney.gbi.bms.model;
 
 import lombok.Data;
 

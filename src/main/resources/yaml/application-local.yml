@@ -28,6 +28,8 @@ mqtt:
   username: mqtt_user
   password: mqtt_password
   clean-session: false
+  automatic-reconnect: true
+  default-publish-qos: 1
 
 logging:
   level:
@@ -43,3 +45,15 @@ mybatis:
       use-generated-keys: true
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: tmoney.gbi.bms.domain
+
+queue:
+  obe:
+    size: 1000
+  bit:
+    size: 1000
+
+  app:
+    db-worker:
+      batch-size: 1000
+      threads: 20
+

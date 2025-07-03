@@ -8,10 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Component;
 import tmoney.gbi.bms.common.crypto.CryptoService;
-import tmoney.gbi.bms.domain.EncryptedLocationDto;
+import tmoney.gbi.bms.model.EncryptedLocationDto;
 import tmoney.gbi.bms.mapper.SampleMapper;
 import tmoney.gbi.bms.proto.EncryptedLocation;
 import tmoney.gbi.bms.proto.Location;
+import tmoney.gbi.bms.router.TopicMessageRouter;
 
 
 import static tmoney.gbi.bms.common.constant.MqttTopicConstants.OBE_TBUS_INB_TOPIC;
@@ -25,9 +26,11 @@ public class MqttMessageHandler {
 
     private final CryptoService cryptoService;
 
-    private final SampleMapper sampleMapper;
+  //  private final SampleMapper sampleMapper;
 
-    private final SampleService sampleService;
+   // private final SampleService sampleService;
+
+    private final TopicMessageRouter<EncryptedLocationDto> router;
 
     @MqttSubscribe(value = OBE_TBUS_INB_TOPIC, qos = QOS_1)
     public void handleLocation(String topic,
@@ -49,7 +52,9 @@ public class MqttMessageHandler {
                     .lastStopDist(location.getLastStopDist())
                     .originAccumDist(location.getOriginAccumDist())
                     .build();
-            sampleService.insert(sampleMapper , encryptedLocationDto);
+
+            router.route(topic , encryptedLocationDto);
+
 //            log.info("[Handler] Transformed Encrypted Latitude: '{}'", location.getLatitude());
 //            log.info("[Handler] Transformed Encrypted Longitude: '{}'", location.getLongitude());
 //

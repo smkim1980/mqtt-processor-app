@@ -1,12 +1,14 @@
 package tmoney.gbi.bms.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import tmoney.gbi.bms.domain.EncryptedLocationDto;
+import tmoney.gbi.bms.model.EncryptedLocationDto;
+
+import java.util.List;
 
 @Mapper
-public interface SampleMapper extends CommonInsertMapper<EncryptedLocationDto> {
+public interface SampleMapper extends CommonInsertMapper<List<EncryptedLocationDto>> {
 
     @Override
-    void insert(EncryptedLocationDto encryptedLocationDto);
+    void insert(List<EncryptedLocationDto> encryptedLocationDto);
 
 }

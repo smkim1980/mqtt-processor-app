@@ -1,12 +1,10 @@
-package tmoney.gbi.bms.domain;
+package tmoney.gbi.bms.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
-
-import com.google.protobuf.Timestamp;
 
 @Data
 @Builder
