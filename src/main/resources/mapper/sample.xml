@@ -5,6 +5,14 @@
 
 <mapper namespace="tmoney.gbi.bms.mapper.SampleMapper">
 
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM ENCRYPTED_LOCATION
+    </select>
+
+    <delete id="deleteAll">
+        DELETE FROM ENCRYPTED_LOCATION
+    </delete>
+
     <insert id="insert" parameterType="java.util.List">
             INSERT INTO ENCRYPTED_LOCATION (
             encrypted_latitude,
