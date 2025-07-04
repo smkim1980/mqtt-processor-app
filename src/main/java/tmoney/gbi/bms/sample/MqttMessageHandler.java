@@ -6,6 +6,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import tmoney.gbi.bms.common.crypto.CryptoService;
 import tmoney.gbi.bms.model.EncryptedLocationDto;
@@ -32,6 +33,7 @@ public class MqttMessageHandler {
 
     private final TopicMessageRouter<EncryptedLocationDto> router;
 
+    @Async("mqttExecutor") // <-- 이 부분을 추가합니다.
     @MqttSubscribe(value = OBE_TBUS_INB_TOPIC, qos = QOS_1)
     public void handleLocation(String topic,
                                @Payload EncryptedLocation location) {
