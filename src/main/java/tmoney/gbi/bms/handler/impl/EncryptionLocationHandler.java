@@ -21,7 +21,7 @@ public class EncryptionLocationHandler implements MessageHandler<EncryptedLocati
 
     @Override
     public boolean canHandle(String topic) {
-        return StringUtils.isBlank(topic) && topic.startsWith(TOPIC_PREFIX);
+        return !StringUtils.isBlank(topic) && topic.startsWith(TOPIC_PREFIX);
     }
 
     @Override

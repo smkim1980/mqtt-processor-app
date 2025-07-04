@@ -46,14 +46,11 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: tmoney.gbi.bms.domain
 
-queue:
-  obe:
-    size: 1000
-  bit:
-    size: 1000
 
-  app:
-    db-worker:
-      batch-size: 1000
-      threads: 20
+app:
+  queue:
+    size: 1000
+  db-worker:
+    batch-size: 1000
+    threads: 20
 

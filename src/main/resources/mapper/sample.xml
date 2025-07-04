@@ -6,10 +6,7 @@
 <mapper namespace="tmoney.gbi.bms.mapper.SampleMapper">
 
     <insert id="insert" parameterType="java.util.List">
-        INSERT ALL
-
-        <foreach collection="list" item="item">
-        INTO ENCRYPTED_LOCATION (
+            INSERT INTO ENCRYPTED_LOCATION (
             encrypted_latitude,
             encrypted_longitude,
             heading,
@@ -21,20 +18,54 @@
             last_stop_seq,
             last_stop_dist,
             origin_accum_dist
-        ) VALUES (
-                     #{item.encryptedLatitude},
-                     #{item.encryptedLongitude},
-                     #{item.heading},
-                     #{item.altitude},
-                     #{item.speed},
-                     #{item.occurDt},
-                     #{item.routeDir},
-                     #{item.lastStopId},
-                     #{item.lastStopSeq},
-                     #{item.lastStopDist},
-                     #{item.originAccumDist}
-                 )
-        </foreach>
+            ) VALUES
+            <foreach collection="list" item="item" separator=",">
+                (
+                #{item.encryptedLatitude},
+                #{item.encryptedLongitude},
+                #{item.heading},
+                #{item.altitude},
+                #{item.speed},
+                #{item.occurDt},
+                #{item.routeDir},
+                #{item.lastStopId},
+                #{item.lastStopSeq},
+                #{item.lastStopDist},
+                #{item.originAccumDist}
+                )
+            </foreach>
+
+
+
+<!--        INSERT ALL-->
+
+<!--        <foreach collection="list" item="item">-->
+<!--        INTO ENCRYPTED_LOCATION (-->
+<!--            encrypted_latitude,-->
+<!--            encrypted_longitude,-->
+<!--            heading,-->
+<!--            altitude,-->
+<!--            speed,-->
+<!--            occur_dt,-->
+<!--            route_dir,-->
+<!--            last_stop_id,-->
+<!--            last_stop_seq,-->
+<!--            last_stop_dist,-->
+<!--            origin_accum_dist-->
+<!--        ) VALUES (-->
+<!--                     #{item.encryptedLatitude},-->
+<!--                     #{item.encryptedLongitude},-->
+<!--                     #{item.heading},-->
+<!--                     #{item.altitude},-->
+<!--                     #{item.speed},-->
+<!--                     #{item.occurDt},-->
+<!--                     #{item.routeDir},-->
+<!--                     #{item.lastStopId},-->
+<!--                     #{item.lastStopSeq},-->
+<!--                     #{item.lastStopDist},-->
+<!--                     #{item.originAccumDist}-->
+<!--                 )-->
+<!--        </foreach>-->
     </insert>
 
 </mapper>
